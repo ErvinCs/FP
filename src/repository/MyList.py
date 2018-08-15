@@ -1,12 +1,12 @@
 from copy import deepcopy
-import unittest
+from src.domain.IterableModule import Iterable
 
 class MyList:
     def __init__(self):
         '''
         Initialize the data field with an empty list
         '''
-        self._repo = []
+        self._repo = Iterable([])
 
     def getAll(self):
         '''
@@ -131,11 +131,13 @@ class MyList:
         :return: the removed element
         Raises a RepositoryException if the id is invalid.
         '''
-        for e in self._repo:
-            if e.getId() == id:
-                ret = e
-                self._repo.remove(e)
+        i = 0
+        while i < len(self._repo):
+            if self._repo[i].getId() == id:
+                ret = self._repo[i]
+                self._repo.pop(i)
                 return ret
+            i += 1
         raise RepositoryException("RemoveElementById: Item not found")
 
     def removeAll(self):
@@ -157,6 +159,15 @@ class MyList:
         '''
         Swap the values of the elements having id1 and id2
         '''
+        '''i = 0
+        while i < len(self._repo):
+            if self._repo[i].getId() == id1:
+                j = 0
+                while j < len(self._repo):
+                    if self._repo[j].getId() == id2:
+                        self.setElementById(id1, self.getElementById(id2))
+                        aux = deepcopy(self.getElementById(id1))
+                        self.setElementById(id2, aux)'''
         for e1 in self._repo:
             if e1.getId() == id1:
                 for e2 in self._repo:

@@ -44,6 +44,7 @@ class ClientList(MyList):
                 self._repo[index].setName(name)
                 catch = False
             index += 1
+        self._repo.resetIndex()
         if catch is True:
             raise RepositoryException("UpdateById: Item not found")
 

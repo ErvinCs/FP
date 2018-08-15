@@ -48,18 +48,45 @@ class RentalController(MyController):
         while cmd != 'T' and cmd != 'D':
             cmd = input("Sort by number of times(T) or number of days(D)?").strip()
         if cmd == 'T':
-            print(str(self._repo.mostRentedBooksTimes(bookList)))
+            #print(str(self._repo.mostRentedBooksTimes(bookList)))
+            list = self._repo.mostRentedBooksTimes(bookList)
+            i = 0
+            while i < len(list):
+                print(str(list[i]))
+                i+=1
         else:
-            print(str(self._repo.mostRentedBooksDays(bookList)))
+            #print(str(self._repo.mostRentedBooksDays(bookList)))
+            list = self._repo.mostRentedBooksDays(bookList)
+            i = 0
+            while i < len(list):
+                print(str(list[i]))
+                i += 1
+
 
     def printMostActiveClients(self, clientList):
-        print(str(self._repo.mostActiveClients(clientList)))
+        #print(str(self._repo.mostActiveClients(clientList)))
+        list = self._repo.mostActiveClients(clientList)
+        i = 0
+        while i < len(list):
+            print(str(list[i]))
+            i += 1
 
     def printMostRentedAuthor(self, bookList):
-        print(str(self._repo.mostRentedAuthor(bookList)))
+        list = self._repo.mostRentedAuthor(bookList)
+        #print(str(self._repo.mostRentedAuthor(bookList)))
+        i = 0
+        while i < len(list):
+            print(str(list[i]))
+            i += 1
 
     def printLateRentals(self):
-        print(str(self._repo.lateRentals()))
+        #print(str(self._repo.lateRentals()))
+        #list = self._repo.lateRentals()
+        list = self._repo.filterLateRentals()
+        i = 0
+        while i < len(list):
+            print(str(list[i]))
+            i += 1
 
     def setUpRentals(self):
         self._repo.addElement(Rental(5, 8, date(2014, 11, 12), date(2016, 11, 17)))
@@ -67,7 +94,6 @@ class RentalController(MyController):
         self._repo.addElement(Rental(1, 6, date(2016, 10, 7), date(2018, 12, 12)))
         self._repo.addElement(Rental(1, 6, date(1998, 10, 7), date(2000, 12, 12)))
         self._repo.addElement(Rental(0, 0, date(1997, 11, 12), date(2017, 11, 12)))
-        self.updateRental(3, date(2000, 12, 24))
         y = lambda x,y: randint(x,y)
         m = lambda x,y: randint(x,y)
         d = lambda x,y: randint(x,y)

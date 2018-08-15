@@ -13,21 +13,15 @@ class ClientController(MyController):
         name = input("Name: ").strip()
         client = Client(name)
         self._repo.addElement(client)
-        #if self.fileFlag == True:
-        #    self._repo.writeFile()
         return client
 
     def updateClient(self, elemIndex):
         name = input("Name: ").strip()
         self._repo.update(elemIndex, name)
-        #if self.fileFlag == True:
-        #    self._repo.writeFile()
 
     def updateById(self, elemId):
         name = input("Name: ").strip()
         self._repo.updateById(elemId, name)
-        #if self.fileFlag == True:
-        #    self._repo.writeFile()
 
     def searchClient(self, id=None, name=None):
         id = input("Id: ").strip().lower()

@@ -1,11 +1,13 @@
 from src.repository.MyList import MyList
 from src.repository.MyList import RepositoryException
+from src.domain.Rental import Rental
+from src.domain import IterableModule
+from copy import deepcopy
 import unittest
 
 class RentalList(MyList):
     def __init__(self):
         MyList.__init__(self)
-        #name mangling
 
     def update(self, elemIndex, returnDate):
         '''
@@ -32,6 +34,7 @@ class RentalList(MyList):
                 self._repo[index].setReturnDate(returnDate)
                 catch = False
             index += 1
+        self._repo.resetIndex()
         if catch is True:
             raise RepositoryException("UpdateById: Item not found")
 
@@ -43,8 +46,8 @@ class RentalList(MyList):
         timesRented = [0]*len(bookList)
         for r in self._repo:
             timesRented[r.getBookId()] += 1
-        return bookList.newSortedByList(timesRented)
-        #also print no. of times
+        print(timesRented)
+        return IterableModule.gnomeSortByList(bookList, timesRented)
 
     def mostRentedBooksDays(self, bookList):
         '''
@@ -54,8 +57,9 @@ class RentalList(MyList):
         daysRented = [0] * len(bookList)
         for r in self.getAll():
             daysRented[r.getBookId()] += r.nrOfDaysRented()
-        return bookList.newSortedByList(daysRented)
-        #also print no. of days
+        print(daysRented)
+        return IterableModule.gnomeSortByList(bookList, daysRented)
+
 
     def mostActiveClients(self, clientList):
         '''
@@ -65,7 +69,8 @@ class RentalList(MyList):
         daysRented = [0] * len(clientList)
         for r in self.getAll():
             daysRented[r.getClientId()] += r.nrOfDaysRented()
-        return clientList.newSortedByList(daysRented)
+        print(daysRented)
+        return IterableModule.gnomeSortByList(clientList, daysRented)
 
     def mostRentedAuthor(self, bookList):
         '''
@@ -78,25 +83,22 @@ class RentalList(MyList):
         for r in self._repo:
             authorsRented[bookList.getBookById(r.getBookId()).getAuthor()] += 1
         print(authorsRented)
-        return authorList.newSortedByList(list(authorsRented.values()))
-        #also print no. of w/e
+        return IterableModule.gnomeSortByList(bookList, list(authorsRented.values()))
 
-    def lateRentals(self):
+    def filterLateRentals(self):
         '''
         :return: all the books that are currently rented
                  for which the due date for return has passed,
                  sorted in descending order of the number of days of delay
         '''
-        list = RentalList()
-        #keep the books for which the due date has passed
+        list = deepcopy(self._repo)
+        list = IterableModule.filter(list, Rental.lateRental)
         delayList = []
         i = 0
-        while i < len(self._repo):
-            d = self.getElement(i).lateRental()
+        while i < len(list):
+            d = list[i].lateRental()
             if d:
-                list.addElement(self.getElement(i))
                 delayList.append(d)
             i += 1
-        return list.newSortedByList(delayList)
-        #also print delay len
+        return IterableModule.gnomeSortByList(list, delayList)
 

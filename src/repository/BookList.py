@@ -67,6 +67,7 @@ class BookList(MyList):
         :param title, description, author: fields to be assigned at that index
         Raises a RepositoryException if the id is invalid.
         '''
+        print("in")
         catch = True
         index = 0
         while index < len(self._repo):
@@ -76,6 +77,7 @@ class BookList(MyList):
                 self._repo[index].setAuthor(author)
                 catch = False
             index += 1
+        self._repo.resetIndex()
         if catch is True:
             raise RepositoryException("UpdateById: Item not found")
 

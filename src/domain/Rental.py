@@ -20,7 +20,6 @@ class Rental:
         self.__returnDate = None
         self.__delay = None
     #Create a constructor that sets rentDate as the currentDate: 'datetime.datetime.now'
-    #RaiseException dueDate < rentDate (in the controller)
 
     def getId(self):
         return self.__rentalId
@@ -40,6 +39,12 @@ class Rental:
     def getReturnDate(self):
         return self.__returnDate
 
+    def getDelay(self):
+        return self.__delay
+
+    def setDelay(self, delay):
+        self.__delay = delay
+
     def setReturnDate(self, returnDate):
         self.__returnDate = returnDate
 
@@ -57,12 +62,12 @@ class Rental:
         '''
         :return: the number of days of delay or False if returned on time
         '''
-        ret = self.__returnDate
-        due = self.__dueDate
+        ret = self.getReturnDate()
+        due = self.getDueDate()
         if ret is None:
             ret = date.today()
         if ret > due:
-            self.__delay = ret - due
+            self.setDelay(ret - due)
             return ret - due
         else:
             return False
